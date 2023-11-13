@@ -62,8 +62,8 @@ params = {
     173: {'name': "Tacle", 'formula': [0]},
     174: {'name': "Tacle", 'formula': [-1]},
 
-    176: {'name': "Esquive", 'formula': [0]},
-    177: {'name': "Esquive", 'formula': [-1]},
+    175: {'name': "Esquive", 'formula': [0]},
+    176: {'name': "Esquive", 'formula': [-1]},
 
 
     26: {'name': "Maitrise soin", 'formula': [0]},
