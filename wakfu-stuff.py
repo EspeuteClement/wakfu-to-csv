@@ -2,6 +2,7 @@ import urllib.request
 import json
 import os
 import sys
+import functools
 
 db_path = "db/"
 
@@ -41,6 +42,17 @@ def load_data_page(version, page):
     with open(db_path + version + "/" + page + ".json", "rb") as f:
         return json.load(f)
 
+
+rarity = {
+    0 : "Commun",
+    1 : "Inhabituel",
+    2 : "Rare",
+    3 : "Mythique",
+    4 : "Légendaire",
+    5 : "Relique",
+    6 : "Souvenir",
+    7 : "Epique"
+}
 
 params = {
     20: {'name': "PV", 'formula': [0]},
@@ -88,6 +100,22 @@ params = {
     -2: {'name': "NB Elements"},
 }
 
+order = {
+    "Maitrise Elem": 1,
+    "NB Elements": 2,
+}
+
+def compare(a, b):
+    sa = 0
+    sb = 0
+    if a in order:
+        sa = order[a]
+    if b in order:
+        sb = order[b] 
+    if sa == sb:
+        return (a > b) - (a < b) 
+    return (sa > sb) - (sa < sb) 
+
 def parse_data(data):
     with open("out.csv", "wb") as file:
         line = ""
@@ -96,9 +124,12 @@ def parse_data(data):
         line += "Raretée;"
         line += "Type;"
 
-        param_names = set()
+        param_names = list()
         for p in params:
-            param_names.add(params[p]["name"])
+            if not params[p]["name"] in param_names:
+                param_names.append(params[p]["name"])
+
+        param_names.sort(key=functools.cmp_to_key(compare))
 
         for p in param_names:
             line += p + ";"
@@ -118,7 +149,7 @@ def parse_data(data):
                 level = value["definition"]["item"]["level"]
                 line += str(level) + ";"
                 
-                line += str(value["definition"]["item"]["baseParameters"]["rarity"]) + ";"
+                line += str(rarity[value["definition"]["item"]["baseParameters"]["rarity"]]) + ";"
 
                 if value["definition"]["item"]["baseParameters"]["itemTypeId"] > 647:
                     continue
