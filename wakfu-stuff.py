@@ -191,7 +191,7 @@ def parse_data(data):
         
 version = "1.81.1.15"
 
-#version = get_version()
+version = get_version()
 get_json(version)
 data = load_data(version)
 parse_data(data)
