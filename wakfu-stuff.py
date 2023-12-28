@@ -171,6 +171,9 @@ def parse_data(data):
                     elif t == 120:
                         effects["Maitrise Elem"] = int(effect["definition"]["params"][0] + level * effect["definition"]["params"][1])
                         effects["NB Elements"] = 4
+                    elif t == 122 or t==123 or t==124 or t==125:
+                        effects["Maitrise Elem"] = int(effect["definition"]["params"][0] + level * effect["definition"]["params"][1])
+                        effects["NB Elements"] = 1
                     elif t in params:
                         tt = params[t]
                         v = 0
